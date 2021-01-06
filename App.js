@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,Image } from 'react-native';
 import TransactionScreen from './screens/bookTransactionScreen'
 import SearchScreen from './screens/searchScreen'
-import {createAppContainer} from 'react-navigation'
+import {createAppContainer,createSwitchNavigator} from 'react-navigation'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
+import { LoginScreen } from './screens/loginScreen';
 
 export default class App extends React.Component{
   render(){
@@ -16,6 +17,28 @@ export default class App extends React.Component{
 const TabNavigator=createBottomTabNavigator({
   Transaction:{screen:TransactionScreen},
 Search:{screen:SearchScreen}
+},
+{
+  defaultNavigationOptions:({navigation})=>({
+    tabBarIcon:({})=>{
+      const routeName=navigation.state.routeName
+      if(routeName==='Transaction'){
+        return(
+          <Image source={require('./assets/book.png')} style={{width:40, height:40}}/>
+        )
+      }
+      else if(routeName==='Search'){
+        return(
+          <Image source={require('./assets/searchingbook.png')} style={{width:40,height:40}}/>
+        )
+      }
+    }
+  })
+}
+)
+const SwitchNavigator=createSwitchNavigator({
+  LoginScreen:{screen:LoginScreen},
+  TabNavigator:{screen:TabNavigator}
 })
-const AppContainer=createAppContainer(TabNavigator)
+const AppContainer=createAppContainer(SwitchNavigator)
 
